@@ -1,0 +1,7 @@
+﻿  Enemy.cpp
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Enemy.cpp(13,39): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  Pikashoot.vcxproj -> C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Debug\Pikashoot.exe
