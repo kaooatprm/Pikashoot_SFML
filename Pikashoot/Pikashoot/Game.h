@@ -12,12 +12,18 @@ private:
 	Font font;
 	std::vector<Text> followPlayerTexts;
 	std::vector<Text> staticPlayerTexts;
+	Text enemyText;
+	Text gameOverText;
 
 	//Players
 	std::vector<Player> players;
+	int playersAlive;
 
 	//Enemies
 	std::vector<Enemy> enemies;
+	std::vector<Enemy> enemiesSaved;
+	int enemySpawnTimer;
+	int enemySpawnTimerMax;
 
 	//Textures
 	std::vector<Texture> textures;
