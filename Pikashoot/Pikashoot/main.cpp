@@ -4,6 +4,9 @@ int main()
 {
 	RenderWindow window(VideoMode(1920, 1080), "Pikashoot", Style::Default);
 	
+	Clock clock;
+	float dt = 0.f;
+
 	Game game(&window);
 
 	//Game loop
@@ -19,7 +22,9 @@ int main()
 				window.close();
 		}
 
-		game.Update();
+		dt = clock.restart().asSeconds();
+
+		game.Update(dt);
 		game.Draw();
 
 	}

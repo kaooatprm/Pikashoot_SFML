@@ -6,12 +6,15 @@
 #include<iostream>
 #include<vector>
 #include<cstdlib>
+#include<math.h>
 
 using namespace sf;
 
 class Bullet
 {
 private:
+	float dtMultiplier;
+
 	Texture *texture;
 	Sprite sprite;
 
@@ -33,9 +36,9 @@ public:
 	inline const Vector2f& getPosition()const { return this->sprite.getPosition(); }
 	
 	//Functions
-	void Movement();
+	void Movement(const float& dt);
 
-	void Update();
+	void Update(const float& dt);
 	void Draw(RenderTarget& target);
 };
 

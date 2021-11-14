@@ -4,14 +4,16 @@
 class Player
 {
 private:
+	float dtMultiplier;
+
 	unsigned playerNr;
 
 	Vector2f playerCenter;
 
-	int shootTimer;
-	int shootTimerMax;
-	int damageTimer;
-	int damageTimerMax;
+	float shootTimer;
+	float shootTimerMax;
+	float damageTimer;
+	float damageTimerMax;
 
 	Sprite sprite;
 	RectangleShape hitBox;
@@ -29,6 +31,12 @@ private:
 	int level;
 	int exp;
 	int expNext;
+	int statPoints;
+
+	int cooling; //endurance
+	int plating; //vigor
+	int power; //strength
+	int wiring; //agility
 
 	int hp;
 	int hpMax;
@@ -56,11 +64,16 @@ public:
 	inline void takeDamage(int damage) { this->hp -= damage; }
 	inline bool isAlive()const { return this->hp > 0; }
 	inline const int& getPlayerNr()const { return this->playerNr; }
+	inline const int& getLevel()const { return this->level; }
+	inline const int& getExp()const { return this->exp; }
+	inline const int& getExpNext()const { return this->expNext; }
+	inline void gainExp(int exp) { this->exp += exp; this->UpdateLeveling(); }
 
 	//Functions
-	void Combat();
-	void Movement();
-	void Update(Vector2u windowBounds);
+	void UpdateLeveling();
+	void Combat(const float& dt);
+	void Movement(const float& dt);
+	void Update(Vector2u windowBounds, const float& dt);
 	void Draw(RenderTarget &target);
 
 	//Statics
