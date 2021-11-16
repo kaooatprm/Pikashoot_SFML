@@ -26,15 +26,7 @@ Game::Game(RenderWindow* window)
 	this->playersAlive = this->players.size();
 
 	//	Init Enemies
-	Enemy e1(
-		&this->textures[enemy01], this->window->getSize(),
-		Vector2f(0.f, 0.f),
-		Vector2f(-1.f, 0.f), Vector2f(0.1f, 0.1f),
-		0, rand() % 3 + 1, 3, 1);
-
-	this->enemiesSaved.push_back(Enemy(e1));
-
-	this->enemySpawnTimerMax = 20;
+	this->enemySpawnTimerMax = 25.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 
 	this->InitUI();
@@ -133,7 +125,8 @@ void Game::Update(const float& dt)
 				&this->textures[enemy01], this->window->getSize(),
 				Vector2f(0.f, 0.f),
 				Vector2f(-1.f, 0.f), Vector2f(0.1f, 0.1f),
-				0, rand() % 3 + 1, 2, 1));
+				rand() % 2, rand() % 3 + 1, 2, 1, rand() % this->playersAlive)
+			);
 
 			this->enemySpawnTimer = 0; //Reset timer
 		}
@@ -229,7 +222,7 @@ void Game::Update(const float& dt)
 		//Update enemies
 		for (size_t i = 0; i < this->enemies.size(); i++)
 		{
-			this->enemies[i].Update(dt);
+			this->enemies[i].Update(dt, this->players[this->enemies[i].getPlayerFollowNr()].getPosition());
 
 			//Enemy player collision
 			for (size_t k = 0; k < this->players.size(); k++)
