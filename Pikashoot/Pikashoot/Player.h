@@ -33,10 +33,6 @@ private:
 	int expNext;
 	int statPoints;
 
-	int cooling; //endurance
-	int plating; //vigor
-	int power; //strength
-	int wiring; //agility
 
 	int hp;
 	int hpMax;
@@ -71,6 +67,8 @@ public:
 	{ this->exp += exp; 
 	return this->UpdateLeveling(); 
 	}
+	inline void gainScore(int score) { this->score += score; }
+	inline const int getScore()const { return this->score; }
 
 	//Functions
 	bool UpdateLeveling();

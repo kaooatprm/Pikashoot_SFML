@@ -11,7 +11,7 @@ Player::Player(
 	int SHOOT)
 	:level(1), exp(0),
 	hp(10), hpMax(10),
-	statPoints(0), cooling(0), plating(0), wiring(0), power(0),
+	statPoints(0), 
 	damage(1), damageMax(2),
 	score(0)
 {

@@ -6,8 +6,17 @@
 class Game
 {
 private:
+	//Game
 	RenderWindow* window;
 	float dtMultiplier;
+
+	//Score
+	unsigned score;
+	unsigned scoreMultiplier;
+	float multiplierTimerMax;
+	float multiplierTimer;
+	int multiplierAdder;
+	int multiplierAdderMax;
 
 	//UI
 	//Text
@@ -16,6 +25,7 @@ private:
 	Text staticPlayerText;
 	Text enemyText;
 	Text gameOverText;
+	Text scoreText;
 
 	//Bars
 	RectangleShape playerExpBar;

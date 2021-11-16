@@ -8,6 +8,12 @@ Game::Game(RenderWindow* window)
 	this->window = window;
 	this->window->setFramerateLimit(200);
 	this->dtMultiplier = 62.5f;
+	this->scoreMultiplier = 1;
+	this->score = 0;
+	this->multiplierAdderMax = 10;
+	this->multiplierAdder = 0;
+	this->multiplierTimerMax = 400.f;
+	this->multiplierTimer = this->multiplierTimerMax;
 
 	//Init fonts
 	this->font.loadFromFile("Fonts/pokemon.ttf");
@@ -64,6 +70,12 @@ void Game::InitUI()
 	this->gameOverText.setCharacterSize(40);
 	this->gameOverText.setString("GAME OVER!");
 	this->gameOverText.setPosition(this->window->getSize().x / 2 - 100.f, this->window->getSize().y / 2);
+
+	this->scoreText.setFont(this->font);
+	this->scoreText.setFillColor(Color(200, 200, 200, 150));
+	this->scoreText.setCharacterSize(20);
+	this->scoreText.setString("Score: 0");
+	this->scoreText.setPosition(10.f, 10.f);
 }
 
 void Game::UpdateUIPlayer(int index)
@@ -117,6 +129,21 @@ void Game::Update(const float& dt)
 		//Update timers
 		if (this->enemySpawnTimer < this->enemySpawnTimerMax)
 			this->enemySpawnTimer += 1.f * dt * this->dtMultiplier;
+
+		//Score timer and multipliers
+		if (this->multiplierTimer > 0.f)
+		{
+			this->multiplierTimer -= 1.f * dt * this->dtMultiplier;
+
+			if (this->multiplierTimer <= 0.f)
+			{
+				this->multiplierTimer = 0.f;
+				this->multiplierAdder = 0;
+				this->scoreMultiplier = 1;
+			}
+		}
+
+		this->scoreMultiplier = this->multiplierAdder / this->multiplierAdderMax + 1;
 
 		//Spawn enemies
 		if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
@@ -175,15 +202,22 @@ void Game::Update(const float& dt)
 								int exp = this->enemies[j].getHPMax()
 									+ (rand() % this->enemies[j].getHPMax() + 1);
 
+								//GAIN SCORE & RESET MULTIPLIER TIMER
+								this->multiplierTimer = this->multiplierTimerMax;
+								int score = this->enemies[j].getHPMax() * this->scoreMultiplier;
+								this->multiplierAdder++;
+								this->players[i].gainScore(score);
+
+								
 								if (this->players[i].gainExp(exp))
 								{
-								//Create text tag
+								//LEVEL UP TEXT TAG
 								this->textTags.push_back(
 									TextTag(&this->font,
 										"LEVEL UP!",
 										Color::Cyan,
-										Vector2f(this->players[i].getPosition().x + 20.f,
-											this->players[i].getPosition().y - 55.f),
+										Vector2f(this->players[i].getPosition().x + 50.f,
+											this->players[i].getPosition().y + 55.f),
 										20,
 										15.f
 									)
@@ -192,12 +226,12 @@ void Game::Update(const float& dt)
 
 								this->enemies.erase(this->enemies.begin() + j);
 
-								//Create text tag
+								//GAIN EXP TEXT TAG
 								this->textTags.push_back(
 									TextTag(&this->font,
 										"+" + std::to_string(exp) + " exp",
 										Color::Cyan,
-										Vector2f(this->players[i].getPosition().x + 20.f,
+										Vector2f(this->players[i].getPosition().x + 50.f,
 											this->players[i].getPosition().y - 55.f),
 										20,
 										15.f
@@ -217,7 +251,23 @@ void Game::Update(const float& dt)
 					}
 				}
 			}
+			//UPDATE SCORE
+			this->score = 0;
+			this->score += players[i].getScore();
+			this->scoreText.setString(
+				"Score: " +
+				std::to_string(this->score) +
+				"\nMultiplier:" +
+				std::to_string(this->scoreMultiplier) +
+				"\nMultiplier Timer:" +
+				std::to_string((int)this->multiplierTimer) +
+				"\nMultiplier Stack: " +
+				std::to_string(this->multiplierAdder) +
+				" / " +
+				std::to_string(this->multiplierAdderMax)
+			);
 		}
+
 
 		//Update enemies
 		for (size_t i = 0; i < this->enemies.size(); i++)
@@ -318,6 +368,9 @@ void Game::Draw()
 	{
 		this->window->draw(this->gameOverText);
 	}
+	
+	//Score Text
+	this->window->draw(this->scoreText);
 
 	this->window->display();
 }
