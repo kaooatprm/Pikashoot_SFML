@@ -6,7 +6,7 @@
 class Game
 {
 private:
-	RenderWindow *window;
+	RenderWindow* window;
 	float dtMultiplier;
 
 	//UI
@@ -17,7 +17,11 @@ private:
 	Text enemyText;
 	Text gameOverText;
 
+	//Bars
 	RectangleShape playerExpBar;
+
+	//Texttags
+	std::vector<TextTag> textTags;
 
 	//Players
 	std::vector<Player> players;
@@ -33,15 +37,15 @@ private:
 	std::vector<Texture> textures;
 
 public:
-	Game(RenderWindow *window);
+	Game(RenderWindow* window);
 	virtual ~Game();
 
 	//Accessors
 	inline RenderWindow& getWindow() { return *this->window; }
-	
+
 	//Setters
-	
-	
+
+
 	//Functions
 	void InitUI();
 	void UpdateUIPlayer(int index);
@@ -50,4 +54,3 @@ public:
 	void DrawUI();
 	void Draw();
 };
-

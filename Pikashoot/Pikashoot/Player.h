@@ -47,9 +47,9 @@ private:
 	int score;
 
 public:
-	Player(std::vector<Texture> &textures,
-		int UP = 22, int DOWN = 18, 
-		int LEFT = 0, int RIGHT = 3, 
+	Player(std::vector<Texture>& textures,
+		int UP = 22, int DOWN = 18,
+		int LEFT = 0, int RIGHT = 3,
 		int SHOOT = 57);
 	virtual ~Player();
 
@@ -57,7 +57,7 @@ public:
 	inline std::vector<Bullet>& getBullets() { return this->bullets; }
 	inline const Vector2f& getPosition()const { return this->sprite.getPosition(); }
 	inline const String getHpAsString()const { return std::to_string(this->hp) + "/" + std::to_string(this->hpMax); }
-	inline const int getDamage()const { return rand() % this->damageMax + this->damage; }
+	int getDamage()const;
 	inline FloatRect getGlobalBounds()const { return this->sprite.getGlobalBounds(); }
 	inline const int& getHp()const { return this->hp; }
 	inline const int& getHpMax()const { return this->hpMax; }
@@ -67,16 +67,18 @@ public:
 	inline const int& getLevel()const { return this->level; }
 	inline const int& getExp()const { return this->exp; }
 	inline const int& getExpNext()const { return this->expNext; }
-	inline void gainExp(int exp) { this->exp += exp; this->UpdateLeveling(); }
+	inline bool gainExp(int exp) 
+	{ this->exp += exp; 
+	return this->UpdateLeveling(); 
+	}
 
 	//Functions
-	void UpdateLeveling();
+	bool UpdateLeveling();
 	void Combat(const float& dt);
 	void Movement(const float& dt);
 	void Update(Vector2u windowBounds, const float& dt);
-	void Draw(RenderTarget &target);
+	void Draw(RenderTarget& target);
 
 	//Statics
 	static unsigned players;
 };
-

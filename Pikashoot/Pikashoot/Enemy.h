@@ -33,7 +33,7 @@ public:
 	inline const bool isDead()const { return this->hp <= 0; }
 	inline FloatRect getGlobalBounds()const { return this->sprite.getGlobalBounds(); }
 	inline Vector2f getPosition()const { return this->sprite.getPosition(); }
-	
+
 	//Functions
 	void takeDamage(int damage);
 	void Update();
@@ -42,4 +42,3 @@ public:
 
 
 };
-

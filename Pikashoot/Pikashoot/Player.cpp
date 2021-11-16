@@ -2,15 +2,16 @@
 
 unsigned Player::players = 0;
 
-enum controls {UP = 0, DOWN, LEFT, RIGHT, SHOOT};
+enum controls { UP = 0, DOWN, LEFT, RIGHT, SHOOT };
 
 Player::Player(
-	std::vector<Texture> &textures,
-	int UP , int DOWN ,
-	int LEFT , int RIGHT ,
+	std::vector<Texture>& textures,
+	int UP, int DOWN,
+	int LEFT, int RIGHT,
 	int SHOOT)
 	:level(1), exp(0),
 	hp(10), hpMax(10),
+	statPoints(0), cooling(0), plating(0), wiring(0), power(0),
 	damage(1), damageMax(2),
 	score(0)
 {
@@ -61,7 +62,12 @@ Player::~Player()
 
 }
 
-void Player::UpdateLeveling()
+int Player::getDamage()const
+{
+	return rand() % this->damageMax + this->damage; 
+}
+
+bool Player::UpdateLeveling()
 {
 	if (this->exp >= this->expNext)
 	{
@@ -69,7 +75,12 @@ void Player::UpdateLeveling()
 		this->statPoints++;
 		this->exp -= this->expNext;
 		this->expNext = static_cast<int>((50 / 3) * ((pow(level, 3) - 6 * pow(level, 2)) + 17 * level - 12));
+		this->hp = hpMax;
+
+		return true;
 	}
+
+	return false;
 }
 
 void Player::Movement(const float& dt)
@@ -118,9 +129,9 @@ void Player::Movement(const float& dt)
 			* dt * this->dtMultiplier;
 
 	}
-	
+
 	//Drag force
-	if(this->currentVelocity.x > 0)
+	if (this->currentVelocity.x > 0)
 	{
 		this->currentVelocity.x -= this->stabilizerForce
 			* dt * this->dtMultiplier;
@@ -155,7 +166,7 @@ void Player::Movement(const float& dt)
 		if (this->currentVelocity.y > 0)
 			this->currentVelocity.y = 0;
 	}
-		
+
 
 	//Final move
 	this->sprite.move(this->currentVelocity.x * dt * this->dtMultiplier,
@@ -168,11 +179,11 @@ void Player::Combat(const float& dt)
 		&& this->shootTimer >= this->shootTimerMax)
 	{
 		this->bullets.push_back(
-		Bullet(bulletTexture, 
-			Vector2f(this->playerCenter.x + 70.f , this->playerCenter.y),
-			Vector2f(1.f, 0.f), 
-			2.f, 45.f, 1.f));
-		
+			Bullet(bulletTexture,
+				Vector2f(this->playerCenter.x + 70.f, this->playerCenter.y),
+				Vector2f(1.f, 0.f),
+				2.f, 45.f, 1.f));
+
 		this->shootTimer = 0; //RESET TIMER!
 	}
 }
@@ -187,17 +198,17 @@ void Player::Update(Vector2u windowBounds, const float& dt)
 		this->damageTimer += 1.f * dt * this->dtMultiplier;
 
 	//Update positions
-	this->playerCenter.x = this->sprite.getPosition().x + 
+	this->playerCenter.x = this->sprite.getPosition().x +
 		this->sprite.getGlobalBounds().width / 2;
-	this->playerCenter.y = this->sprite.getPosition().y + 
+	this->playerCenter.y = this->sprite.getPosition().y +
 		this->sprite.getGlobalBounds().height / 2;
 
 	this->Movement(dt);
 	this->Combat(dt);
-	
+
 }
 
-void Player::Draw(RenderTarget &target)
+void Player::Draw(RenderTarget& target)
 {
 	for (size_t i = 0; i < this->bullets.size(); i++)
 	{

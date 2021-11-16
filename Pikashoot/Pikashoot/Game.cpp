@@ -1,7 +1,7 @@
 #define SFML_NO_DEPRECATED_WARNINGS
 #include "Game.h"
 
-enum textures {player = 0, bullet, enemy01};
+enum textures { player = 0, bullet, enemy01 };
 
 Game::Game(RenderWindow* window)
 {
@@ -19,7 +19,7 @@ Game::Game(RenderWindow* window)
 	this->textures[bullet].loadFromFile("Textures/bullet01.png");
 	this->textures.push_back(Texture());
 	this->textures[enemy01].loadFromFile("Textures/enemy01.png");
-	
+
 	//Init player
 	this->players.push_back(Player(this->textures));
 
@@ -42,26 +42,26 @@ Game::Game(RenderWindow* window)
 
 Game::~Game()
 {
-	
+
 }
 
 void Game::InitUI()
 {
 	Text tempText;
-	
-		//Follow Text Init
-		this->followPlayerText.setFont(font);
-		this->followPlayerText.setCharacterSize(14);
-		this->followPlayerText.setColor(Color::White);
 
-		//Static Text Init
-		this->staticPlayerText.setFont(font);
-		this->staticPlayerText.setCharacterSize(14);
-		this->staticPlayerText.setColor(Color::White);
+	//Follow Text Init
+	this->followPlayerText.setFont(font);
+	this->followPlayerText.setCharacterSize(14);
+	this->followPlayerText.setColor(Color::White);
 
-		this->playerExpBar.setSize(Vector2f(90.f, 10.f));
-		this->playerExpBar.setFillColor(Color(0.f, 90.f, 200.f, 200.f));
-	
+	//Static Text Init
+	this->staticPlayerText.setFont(font);
+	this->staticPlayerText.setCharacterSize(14);
+	this->staticPlayerText.setColor(Color::White);
+
+	this->playerExpBar.setSize(Vector2f(90.f, 10.f));
+	this->playerExpBar.setFillColor(Color(0.f, 90.f, 200.f, 200.f));
+
 
 	this->enemyText.setFont(this->font);
 	this->enemyText.setCharacterSize(14);
@@ -87,7 +87,7 @@ void Game::UpdateUIPlayer(int index)
 
 		this->followPlayerText.setString(
 			//std::to_string(this->players[index].getPlayerNr())
-			+ ""
+			+""
 			+ this->players[index].getHpAsString()
 			+ "\n\n\n\n\n\n\n\n"
 			+ std::to_string(this->players[index].getLevel())
@@ -160,15 +160,56 @@ void Game::Update(const float& dt)
 							this->players[i].getBullets().erase(this->players[i].getBullets().begin() + k);
 
 							//Enemy take damage
+							int damage = this->players[i].getDamage();
 							if (this->enemies[j].getHP() > 0)
 								this->enemies[j].takeDamage(this->players[i].getDamage());
 
+							//Create text tag
+							this->textTags.push_back(
+								TextTag(&this->font,
+									"-" + std::to_string(damage),
+									Color::Red,
+									Vector2f(this->enemies[j].getPosition().x + 20.f,
+										this->enemies[j].getPosition().y - 55.f),
+									20,
+									15.f
+								)
+							);
 							//Enemy dead
 							if (this->enemies[j].getHP() <= 0)
 							{
-								this->players[i].gainExp(this->enemies[j].getHPMax()
-									+ (rand() % this->enemies[j].getHPMax() + 1));
+								//GAIN EXP
+								int exp = this->enemies[j].getHPMax()
+									+ (rand() % this->enemies[j].getHPMax() + 1);
+
+								if (this->players[i].gainExp(exp))
+								{
+								//Create text tag
+								this->textTags.push_back(
+									TextTag(&this->font,
+										"LEVEL UP!",
+										Color::Cyan,
+										Vector2f(this->players[i].getPosition().x + 20.f,
+											this->players[i].getPosition().y - 55.f),
+										20,
+										15.f
+									)
+								);
+								}
+
 								this->enemies.erase(this->enemies.begin() + j);
+
+								//Create text tag
+								this->textTags.push_back(
+									TextTag(&this->font,
+										"+" + std::to_string(exp) + " exp",
+										Color::Cyan,
+										Vector2f(this->players[i].getPosition().x + 20.f,
+											this->players[i].getPosition().y - 55.f),
+										20,
+										15.f
+									)
+								);
 							}
 
 							return;	//RETURN!!!
@@ -197,7 +238,19 @@ void Game::Update(const float& dt)
 				{
 					if (this->players[k].getGlobalBounds().intersects(this->enemies[i].getGlobalBounds()))
 					{
-						this->players[k].takeDamage(this->enemies[i].getDamage());
+						int damage = this->enemies[i].getDamage();
+							this->players[k].takeDamage(damage);
+							//Create text tag
+							this->textTags.push_back(
+								TextTag(&this->font, 
+									"-" + std::to_string(damage),
+									Color::Red, 
+									Vector2f(this->players[k].getPosition().x + 20.f,
+										this->players[k].getPosition().y - 55.f),
+									20,
+									15.f
+								)
+							);
 
 						if (!this->players[k].isAlive())
 							this->playersAlive--;
@@ -213,6 +266,18 @@ void Game::Update(const float& dt)
 			{
 				this->enemies.erase(this->enemies.begin() + i);
 				return;	//RETURN!!!
+			}
+		}
+
+		//Texttags
+		for (size_t i = 0; i < this->textTags.size(); i++)
+		{
+			this->textTags[i].Update(dt);
+
+			if (this->textTags[i].getTimer() <= 0.f)
+			{
+				this->textTags.erase(this->textTags.begin() + i);
+				break;
 			}
 		}
 	}
@@ -248,6 +313,11 @@ void Game::Draw()
 			this->window->draw(this->followPlayerText);
 			this->window->draw(this->playerExpBar);
 		}
+	}
+
+	for (size_t i = 0; i < this->textTags.size(); i++)
+	{
+		this->textTags[i].Draw(*this->window);
 	}
 
 	//GAME OVER TEXT

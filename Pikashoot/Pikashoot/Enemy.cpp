@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-enum eTypes {MOVELEFT = 0, FOLLOW, FOLLOWFAST , FOLLOWSHOOT , FOLLOWFASTSHOOT};
+enum eTypes { MOVELEFT = 0, FOLLOW, FOLLOWFAST, FOLLOWSHOOT, FOLLOWFASTSHOOT };
 
 Enemy::Enemy(Texture* texture, Vector2u windowBounds,
 	Vector2f position, Vector2f direction,
@@ -45,15 +45,15 @@ void Enemy::Update(const float& dt)
 	switch (this->type)
 	{
 	case 0:
-			
-			this->sprite.move(this->direction.x * 10.f * dt * this->dtMultiplier,
-				this->direction.y * 10.f * dt * this->dtMultiplier);
-			break;
+
+		this->sprite.move(this->direction.x * 10.f * dt * this->dtMultiplier,
+			this->direction.y * 10.f * dt * this->dtMultiplier);
+		break;
 
 
 	default:
-			
-			break;
+
+		break;
 	}
 }
 
@@ -61,4 +61,3 @@ void Enemy::Draw(RenderTarget& target)
 {
 	target.draw(this->sprite);
 }
-

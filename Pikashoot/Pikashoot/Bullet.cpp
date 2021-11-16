@@ -17,8 +17,8 @@ Bullet::Bullet(Texture* texture, Vector2f position,
 
 	this->sprite.setScale(0.125f, 0.125f);
 	this->sprite.setPosition(
-		Vector2f(position.x - this->sprite.getGlobalBounds().width/2,
-			position.y - this->sprite.getGlobalBounds().height/2));
+		Vector2f(position.x - this->sprite.getGlobalBounds().width / 2,
+			position.y - this->sprite.getGlobalBounds().height / 2));
 }
 Bullet::~Bullet()
 {
@@ -39,13 +39,13 @@ void Bullet::Movement(const float& dt)
 			* this->direction.y
 			* dt * this->dtMultiplier;
 	}
-	else 
+	else
 	{
 		this->currentVelocity = Vector2f(
 			this->maxVelocity * this->direction.x,
 			this->maxVelocity * this->direction.y);
 	}
-	
+
 	this->sprite.move(this->currentVelocity * dt * this->dtMultiplier);
 }
 
