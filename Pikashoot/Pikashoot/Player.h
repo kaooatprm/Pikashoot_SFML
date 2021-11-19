@@ -63,9 +63,10 @@ public:
 	inline const int& getLevel()const { return this->level; }
 	inline const int& getExp()const { return this->exp; }
 	inline const int& getExpNext()const { return this->expNext; }
-	inline bool gainExp(int exp) 
-	{ this->exp += exp; 
-	return this->UpdateLeveling(); 
+	inline bool gainExp(int exp)
+	{
+		this->exp += exp;
+		return this->UpdateLeveling();
 	}
 	inline void gainScore(int score) { this->score += score; }
 	inline const int getScore()const { return this->score; }

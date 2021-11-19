@@ -36,6 +36,13 @@ Game::Game(RenderWindow* window)
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 
 	this->InitUI();
+	this->InitWorld();
+}
+
+void Game::InitWorld()
+{
+	this->worldBGtexture.loadFromFile("Textures/bg.jpg");
+	this->worldBG.setTexture(this->worldBGtexture);
 }
 
 Game::~Game()
@@ -50,7 +57,7 @@ void Game::InitUI()
 	//Follow Text Init
 	this->followPlayerText.setFont(font);
 	this->followPlayerText.setCharacterSize(14);
-	this->followPlayerText.setColor(Color::White);
+	this->followPlayerText.setColor(Color::Green);
 
 	//Static Text Init
 	this->staticPlayerText.setFont(font);
@@ -72,7 +79,7 @@ void Game::InitUI()
 	this->gameOverText.setPosition(this->window->getSize().x / 2 - 100.f, this->window->getSize().y / 2);
 
 	this->scoreText.setFont(this->font);
-	this->scoreText.setFillColor(Color(200, 200, 200, 150));
+	this->scoreText.setFillColor(Color::Yellow);
 	this->scoreText.setCharacterSize(20);
 	this->scoreText.setString("Score: 0");
 	this->scoreText.setPosition(10.f, 10.f);
@@ -212,20 +219,20 @@ void Game::Update(const float& dt)
 								this->multiplierAdder++;
 								this->players[i].gainScore(score);
 
-								
+
 								if (this->players[i].gainExp(exp))
 								{
-								//LEVEL UP TEXT TAG
-								this->textTags.push_back(
-									TextTag(&this->font,
-										"LEVEL UP!",
-										Color::Cyan,
-										Vector2f(this->players[i].getPosition().x + 50.f,
-											this->players[i].getPosition().y + 55.f),
-										20,
-										15.f
-									)
-								);
+									//LEVEL UP TEXT TAG
+									this->textTags.push_back(
+										TextTag(&this->font,
+											"LEVEL UP!",
+											Color::Cyan,
+											Vector2f(this->players[i].getPosition().x + 50.f,
+												this->players[i].getPosition().y + 55.f),
+											20,
+											15.f
+										)
+									);
 								}
 
 								this->enemies.erase(this->enemies.begin() + j);
@@ -286,18 +293,18 @@ void Game::Update(const float& dt)
 					if (this->players[k].getGlobalBounds().intersects(this->enemies[i].getGlobalBounds()))
 					{
 						int damage = this->enemies[i].getDamage();
-							this->players[k].takeDamage(damage);
-							//Create text tag
-							this->textTags.push_back(
-								TextTag(&this->font, 
-									"-" + std::to_string(damage),
-									Color::Red, 
-									Vector2f(this->players[k].getPosition().x + 20.f,
-										this->players[k].getPosition().y - 55.f),
-									20,
-									15.f
-								)
-							);
+						this->players[k].takeDamage(damage);
+						//Create text tag
+						this->textTags.push_back(
+							TextTag(&this->font,
+								"-" + std::to_string(damage),
+								Color::Red,
+								Vector2f(this->players[k].getPosition().x + 20.f,
+									this->players[k].getPosition().y - 55.f),
+								20,
+								15.f
+							)
+						);
 
 						if (!this->players[k].isAlive())
 							this->playersAlive--;
@@ -330,6 +337,11 @@ void Game::Update(const float& dt)
 	}
 }
 
+void Game::RenderWorld()
+{
+	this->window->draw(this->worldBG);
+}
+
 void Game::DrawUI()
 {
 
@@ -338,6 +350,9 @@ void Game::DrawUI()
 void Game::Draw()
 {
 	this->window->clear();
+
+	//Draw worldBG
+	this->RenderWorld();
 
 	for (size_t i = 0; i < this->enemies.size(); i++)
 	{
@@ -372,7 +387,7 @@ void Game::Draw()
 	{
 		this->window->draw(this->gameOverText);
 	}
-	
+
 	//Score Text
 	this->window->draw(this->scoreText);
 

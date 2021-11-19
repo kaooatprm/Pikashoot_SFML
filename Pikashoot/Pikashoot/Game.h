@@ -43,6 +43,10 @@ private:
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 
+	//WorldBG
+	Texture worldBGtexture;
+	Sprite worldBG;
+
 	//Textures
 	std::vector<Texture> textures;
 
@@ -58,9 +62,11 @@ public:
 
 	//Functions
 	void InitUI();
+	void InitWorld();
 	void UpdateUIPlayer(int index);
 	void UpdateUIEnemy(int index);
 	void Update(const float& dt);
+	void RenderWorld();
 	void DrawUI();
 	void Draw();
 };

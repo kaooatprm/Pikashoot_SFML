@@ -11,7 +11,7 @@ Player::Player(
 	int SHOOT)
 	:level(1), exp(0),
 	hp(10), hpMax(10),
-	statPoints(0), 
+	statPoints(0),
 	damage(1), damageMax(2),
 	score(0)
 {
@@ -64,7 +64,7 @@ Player::~Player()
 
 int Player::getDamage()const
 {
-	return rand() % this->damageMax + this->damage; 
+	return rand() % this->damageMax + this->damage;
 }
 
 bool Player::UpdateLeveling()
