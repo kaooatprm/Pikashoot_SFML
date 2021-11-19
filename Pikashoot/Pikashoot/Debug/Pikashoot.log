@@ -10,9 +10,5 @@ C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pi
               T=unsigned int
           ]
 C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Game.cpp(83,12): warning C4018: '>=': signed/unsigned mismatch
-  Player.cpp
-  main.cpp
-C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Enemy.h(49,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
 C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Bullet.h(29): warning C4172: returning address of local variable or temporary
   Pikashoot.vcxproj -> C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Debug\Pikashoot.exe

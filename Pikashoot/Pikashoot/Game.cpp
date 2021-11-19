@@ -12,7 +12,7 @@ Game::Game(RenderWindow* window)
 	this->score = 0;
 	this->multiplierAdderMax = 10;
 	this->multiplierAdder = 0;
-	this->multiplierTimerMax = 400.f;
+	this->multiplierTimerMax = 200.f;
 	this->multiplierTimer = this->multiplierTimerMax;
 
 	//Init fonts
@@ -143,7 +143,11 @@ void Game::Update(const float& dt)
 			}
 		}
 
-		this->scoreMultiplier = this->multiplierAdder / this->multiplierAdderMax + 1;
+		if (this->multiplierAdder >= this->multiplierAdderMax)
+		{
+			this->multiplierAdder = 0;
+			this->scoreMultiplier++;
+		}
 
 		//Spawn enemies
 		if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
