@@ -175,6 +175,14 @@ void Player::Movement(const float& dt)
 	this->sprite.move(this->currentVelocity.x * dt * this->dtMultiplier,
 		this->currentVelocity.y * dt * this->dtMultiplier);
 
+	if (this->getPosition().y < 40.4f)
+		this->sprite.setPosition(this->getPosition().x, 40.4f);
+	if (this->getPosition().x < 12.0f)
+		this->sprite.setPosition(12.0f, this->getPosition().y);
+	if (this->getPosition().x > 1790.0f)
+		this->sprite.setPosition(1790.0f, this->getPosition().y);
+	if (this->getPosition().y > 900.0f)
+		this->sprite.setPosition(this->getPosition().x, 900.0f);
 }
 
 void Player::Combat(const float& dt)
