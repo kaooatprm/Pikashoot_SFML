@@ -3,6 +3,8 @@
 #include"Player.h"
 #include"Enemy.h"
 #include "SFML/Audio.hpp"
+#include "Menu.h"
+#include "Entername.h"
 
 class Game
 {
@@ -12,6 +14,8 @@ private:
 
 	SoundBuffer collibuffer;
 	Sound colli;
+	Clock clock;
+	float dt = 0.f;
 
 	//Game
 	RenderWindow* window;
@@ -62,7 +66,7 @@ private:
 	Sound hitSound;
 
 public:
-	Game(RenderWindow* window);
+	Game(sf::RenderWindow* window, Entername* entername);
 	virtual ~Game();
 
 	//Accessors
@@ -72,6 +76,8 @@ public:
 
 
 	//Functions
+	void run();
+	void updatePollEvents();
 	void InitUI();
 	void InitWorld();
 	void UpdateUIPlayer(int index);

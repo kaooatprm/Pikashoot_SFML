@@ -3,7 +3,7 @@
 
 enum textures { player = 0, bullet, enemy01 };
 
-Game::Game(RenderWindow* window)
+Game::Game(sf::RenderWindow* window, Entername* entername)
 {
 	this->enemybuffer.loadFromFile("Audio/explode.wav");
 	this->collibuffer.loadFromFile("Audio/colli.wav");
@@ -40,6 +40,32 @@ Game::Game(RenderWindow* window)
 
 	this->InitUI();
 	this->InitWorld();
+}
+
+void Game::run()
+{
+	while (this->window->isOpen())
+	{
+		this->updatePollEvents();
+
+		if (this->players[0].getHp() > 0)
+			
+		this->dt = this->clock.restart().asSeconds();
+		this->Update(dt);
+		this->Draw();
+	}
+}
+
+void Game::updatePollEvents()
+{
+	sf::Event e;
+	while (this->window->pollEvent(e))
+	{
+		if (e.Event::type == sf::Event::Closed)
+			this->window->close();
+		if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
+			this->window->close();
+	}
 }
 
 void Game::InitWorld()

@@ -223,6 +223,15 @@ void Player::Update(Vector2u windowBounds, const float& dt)
 
 }
 
+void Player::plusHp(int hp)
+{
+	this->hp += hp;
+	if (this->hp >= this->hpMax)
+	{
+		this->hp = this->hpMax;
+	}
+}
+
 void Player::Draw(RenderTarget& target)
 {
 	for (size_t i = 0; i < this->bullets.size(); i++)

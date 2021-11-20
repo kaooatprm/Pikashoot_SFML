@@ -81,6 +81,7 @@ public:
 	void Movement(const float& dt);
 	void Update(Vector2u windowBounds, const float& dt);
 	void Draw(RenderTarget& target);
+	void plusHp(int hp);
 
 	//Statics
 	static unsigned players;
