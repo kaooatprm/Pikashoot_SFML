@@ -5,6 +5,9 @@ enum textures { player = 0, bullet, enemy01 };
 
 Game::Game(RenderWindow* window)
 {
+	this->enemybuffer.loadFromFile("Audio/explode.wav");
+	this->collibuffer.loadFromFile("Audio/colli.wav");
+
 	this->window = window;
 	this->window->setFramerateLimit(200);
 	this->dtMultiplier = 62.5f;
@@ -183,6 +186,7 @@ void Game::Update(const float& dt)
 				{
 					this->players[i].getBullets()[k].Update(dt);
 
+
 					//Enemy collision check
 					for (size_t j = 0; j < this->enemies.size(); j++)
 					{
@@ -209,6 +213,10 @@ void Game::Update(const float& dt)
 							//Enemy dead
 							if (this->enemies[j].getHP() <= 0)
 							{
+								this->enemydead.setBuffer(this->enemybuffer);
+								this->enemydead.setVolume(30);
+								this->enemydead.play();
+
 								//GAIN EXP
 								int exp = this->enemies[j].getHPMax()
 									+ (rand() % this->enemies[j].getHPMax() + 1);
@@ -292,6 +300,9 @@ void Game::Update(const float& dt)
 				{
 					if (this->players[k].getGlobalBounds().intersects(this->enemies[i].getGlobalBounds()))
 					{
+						this->colli.setBuffer(this->collibuffer);
+						this->colli.setVolume(30);
+						this->colli.play();
 						int damage = this->enemies[i].getDamage();
 						this->players[k].takeDamage(damage);
 						//Create text tag

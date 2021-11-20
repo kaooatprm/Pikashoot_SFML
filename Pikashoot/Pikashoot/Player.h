@@ -1,5 +1,6 @@
 #pragma once
 #include"Bullet.h"
+#include "SFML/Audio.hpp"
 
 class Player
 {
@@ -41,6 +42,9 @@ private:
 	int damageMax;
 
 	int score;
+
+	SoundBuffer buffer;
+	Sound sound;
 
 public:
 	Player(std::vector<Texture>& textures,

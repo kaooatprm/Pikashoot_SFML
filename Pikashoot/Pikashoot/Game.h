@@ -2,10 +2,17 @@
 
 #include"Player.h"
 #include"Enemy.h"
+#include "SFML/Audio.hpp"
 
 class Game
 {
 private:
+	SoundBuffer enemybuffer;
+	Sound enemydead;
+
+	SoundBuffer collibuffer;
+	Sound colli;
+
 	//Game
 	RenderWindow* window;
 	float dtMultiplier;
@@ -49,6 +56,10 @@ private:
 
 	//Textures
 	std::vector<Texture> textures;
+
+	//Bullet Sound
+	SoundBuffer hitBuffer;
+	Sound hitSound;
 
 public:
 	Game(RenderWindow* window);

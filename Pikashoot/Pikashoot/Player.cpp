@@ -15,6 +15,8 @@ Player::Player(
 	damage(1), damageMax(2),
 	score(0)
 {
+	this->buffer.loadFromFile("Audio/hit.wav");
+
 	//Dt
 	this->dtMultiplier = 62.5f;
 
@@ -172,6 +174,7 @@ void Player::Movement(const float& dt)
 	//Final move
 	this->sprite.move(this->currentVelocity.x * dt * this->dtMultiplier,
 		this->currentVelocity.y * dt * this->dtMultiplier);
+
 }
 
 void Player::Combat(const float& dt)
@@ -179,6 +182,9 @@ void Player::Combat(const float& dt)
 	if (Keyboard::isKeyPressed(Keyboard::Key(this->controls[controls::SHOOT]))
 		&& this->shootTimer >= this->shootTimerMax)
 	{
+		this->sound.setBuffer(this->buffer);
+		this->sound.setVolume(40);
+		this->sound.play();
 		this->bullets.push_back(
 			Bullet(bulletTexture,
 				Vector2f(this->playerCenter.x + 70.f, this->playerCenter.y),
