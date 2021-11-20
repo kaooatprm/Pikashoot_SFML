@@ -109,7 +109,7 @@ void Game::InitUI()
 
 	this->scoreText.setFont(this->font);
 	this->scoreText.setFillColor(Color::Yellow);
-	this->scoreText.setCharacterSize(20);
+	this->scoreText.setCharacterSize(25);
 	this->scoreText.setString("Score: 0");
 	this->scoreText.setPosition(10.f, 10.f);
 }

@@ -4,6 +4,7 @@
 #include <time.h>
 #include "Menu.h"
 #include "Entername.h"
+#include"Highscore.h"
 #include "SFML/Audio.hpp"
 #include <vector>
 
@@ -14,8 +15,6 @@ int main()
 
 	Clock clock;
 	float dt = 0.f;
-
-
 
 	//Game loop
 	Menu menu(window.getSize().x, window.getSize().y);
@@ -44,7 +43,7 @@ int main()
 	sf::Sprite background;
 	background.setTexture(texture);
 	srand(time(nullptr));
-	//Highscore highscore(&window);
+	Highscore highscore(&window);
 	Entername entername(&window);
 	Game game(&window, &entername);
 	std::vector<sf::Event> textEnter;
@@ -122,7 +121,6 @@ int main()
 			dt = clock.restart().asSeconds();
 			game.Update(dt);
 			game.run();
-			//game.Draw();
 			break;
 		case 2:
 			switch (event.key.code)
@@ -131,10 +129,10 @@ int main()
 				std::cout << "esc";
 				state = 0;
 				break;
-			//default:highscore.render();
+			default: highscore.render();
 				break;
 			}
-			//highscore.render();
+			
 			break;
 		case 3:
 			entername.enterName(textEnter);

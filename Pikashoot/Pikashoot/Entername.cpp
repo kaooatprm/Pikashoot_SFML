@@ -5,16 +5,16 @@ Entername::Entername(sf::RenderWindow* window)
 	this->window = window;
 	this->font.loadFromFile("Fonts/pokemon.ttf");
 	this->playerLabel.setFont(this->font);
-	this->playerLabel.setCharacterSize(20);
+	this->playerLabel.setCharacterSize(40);
 	this->playerLabel.setFillColor(sf::Color::White);
-	this->playerLabel.setPosition((1078 / 2) - (310 / 2), 115);
+	this->playerLabel.setPosition((1920 / 2) - (550 / 2), 140);
 	this->playerLabel.setLetterSpacing(1.5);
 	this->playerLabel.setString("Enter Your Name");
 
 	this->player.setFont(this->font);
-	this->player.setCharacterSize(20);
+	this->player.setCharacterSize(40);
 	this->player.setFillColor(sf::Color::White);
-	this->player.setPosition((1078 / 2), 170);
+	this->player.setPosition((1920 / 2), 280);
 	this->player.setLetterSpacing(1.5);
 	this->player.setString(this->playerName);
 
