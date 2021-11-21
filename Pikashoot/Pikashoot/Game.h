@@ -5,6 +5,7 @@
 #include "SFML/Audio.hpp"
 #include "Menu.h"
 #include "Highscore.h"
+#include "Item.h"
 
 class Game
 {
@@ -71,6 +72,21 @@ private:
 	//Bullet Sound
 	SoundBuffer hitBuffer;
 	Sound hitSound;
+
+	//Item
+	std::vector<Item*> items;
+	sf::SoundBuffer itemBuffer;
+	sf::Sound itemSound;
+	float itemSpawnTimer;
+	float itemSpawnTimerMax;
+	float setScale[2];
+	int randomItem;
+	sf::Texture itemTexture[2];
+	sf::Sprite itemSprite;
+
+	//Level UP Sound
+	sf::SoundBuffer levelupBuffer;
+	sf::Sound levelupSound;
 
 public:
 	Game(sf::RenderWindow* window);

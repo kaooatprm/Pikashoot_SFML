@@ -82,6 +82,7 @@ public:
 	void Update(Vector2u windowBounds, const float& dt);
 	void Draw(RenderTarget& target);
 	void plusHp(int hp);
+	void plusEXP(int exp);
 
 	//Statics
 	static unsigned players;

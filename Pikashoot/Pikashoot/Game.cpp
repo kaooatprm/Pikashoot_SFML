@@ -6,8 +6,10 @@ enum textures { player = 0, bullet, enemy01 };
 
 Game::Game(sf::RenderWindow* window)
 {
+	//General Sound
 	this->enemybuffer.loadFromFile("Audio/explode.wav");
 	this->collibuffer.loadFromFile("Audio/colli.wav");
+	this->levelupBuffer.loadFromFile("Audio/levelup.wav");
 
 	this->window = window;
 	this->window->setFramerateLimit(200);
@@ -30,11 +32,21 @@ Game::Game(sf::RenderWindow* window)
 	this->textures.push_back(Texture());
 	this->textures[enemy01].loadFromFile("Textures/enemy01.png");
 
+	//Item
+	this->itemBuffer.loadFromFile("Audio/item.wav");
+	this->itemSound.setBuffer(this->itemBuffer);
+	this->itemSound.setVolume(30);
+	this->itemTexture[0].loadFromFile("Textures/health.png");
+	this->itemTexture[1].loadFromFile("Textures/powerup.png");
+	this->setScale[0] = 0.2f;
+	this->setScale[1] = 0.4f;
+	this->itemSpawnTimerMax = 8.f;
+
 	//Init player
 	this->players.push_back(Player(this->textures));
 	this->playersAlive = this->players.size();
 
-	//	Init Enemies
+	//Init Enemies
 	this->enemySpawnTimerMax = 35.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 
@@ -230,6 +242,43 @@ void Game::Update(const float& dt)
 			this->enemySpawnTimer = 0; //Reset timer
 		}
 
+		//Item
+		this->itemSpawnTimer += this->dt;
+		if (this->itemSpawnTimer >= this->itemSpawnTimerMax)
+		{
+			this->itemSpawnTimer -= this->itemSpawnTimerMax;
+			this->randomItem = (rand() % 2);
+			this->items.push_back(new Item(&this->itemTexture[randomItem], this->window->getSize().x + 100, this->window->getSize().y - ((rand() % this->window->getSize().y - 100) + 50.f), this->setScale[randomItem], this->randomItem));
+		}
+
+		//Update Items
+		for (int i = 0; i < items.size(); i++)
+		{
+			this->items[i]->updateItem();
+			if (this->items[i]->getBounds().intersects(this->players[i].getGlobalBounds()))
+			{
+				this->itemSound.play();
+				if (this->items[i]->itemType() == 0)
+				{
+					this->players[i].plusHp(rand() % 5);
+					delete this->items[i];
+					this->items.erase(this->items.begin() + i);
+				}
+				else if (this->items[i]->itemType() == 1)
+				{
+					this->players[i].plusEXP(rand() % 35);
+					delete this->items[i];
+					this->items.erase(this->items.begin() + i);
+
+				}
+			}
+			else if (this->items[i]->deleteItem())
+			{
+				delete this->items[i];
+				this->items.erase(this->items.begin() + i);
+			}
+		}
+
 
 		//Update players, bullets and combat
 		for (size_t i = 0; i < this->players.size(); i++)
@@ -288,6 +337,9 @@ void Game::Update(const float& dt)
 
 								if (this->players[i].gainExp(exp))
 								{
+									this->levelupSound.setBuffer(this->levelupBuffer);
+									this->levelupSound.setVolume(30);
+									this->levelupSound.play();
 									//LEVEL UP TEXT TAG
 									this->textTags.push_back(
 										TextTag(&this->font,
@@ -449,6 +501,13 @@ void Game::Draw()
 	for (size_t i = 0; i < this->textTags.size(); i++)
 	{
 		this->textTags[i].Draw(*this->window);
+	}
+
+	//ITEM 
+	for (size_t i = 0; i < this->items.size(); i++)
+	{
+		this->items[i]->updateItem();
+		this->items[i]->Draw(*this->window);
 	}
 
 	//GAME OVER

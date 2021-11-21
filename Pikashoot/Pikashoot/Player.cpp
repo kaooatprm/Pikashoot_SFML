@@ -54,7 +54,7 @@ Player::Player(
 	this->controls[controls::RIGHT] = RIGHT;
 	this->controls[controls::SHOOT] = SHOOT;
 
-	this->maxVelocity = 25.f;
+	this->maxVelocity = 25.f; //shoot speed
 	this->acceleration = 0.8f;
 	this->stabilizerForce = 0.4f;
 }
@@ -230,6 +230,11 @@ void Player::plusHp(int hp)
 	{
 		this->hp = this->hpMax;
 	}
+}
+
+void Player::plusEXP(int exp)
+{
+	this->exp += exp;
 }
 
 void Player::Draw(RenderTarget& target)
