@@ -6,7 +6,7 @@ void Highscore::initHighscore()
 	this->font.loadFromFile("Fonts/pokemon.ttf");
 	this->scoreBoardText.setFont(this->font);
 	this->scoreBoardText.setCharacterSize(40);
-	this->scoreBoardText.setFillColor(sf::Color::White);
+	this->scoreBoardText.setFillColor(sf::Color::Yellow);
 	this->scoreBoardText.setString("Leaderboards");
 	this->scoreBoardText.setPosition((this->windowX / 2) - (this->scoreBoardText.getGlobalBounds().width / 2), 50);
 	this->ReadFile();
@@ -16,11 +16,11 @@ void Highscore::initHighscore()
 		this->playerScore[i].setString(std::to_string(this->score[i]));
 		this->playerName[i].setFont(this->font);
 		this->playerName[i].setCharacterSize(30);
-		this->playerName[i].setFillColor(sf::Color::White);
+		this->playerName[i].setFillColor(sf::Color::Yellow);
 		this->playerName[i].setPosition((this->windowX / 2) - (this->scoreBoardText.getGlobalBounds().width / 2), 200 + 100 * i);
 		this->playerScore[i].setFont(this->font);
 		this->playerScore[i].setCharacterSize(30.f);
-		this->playerScore[i].setFillColor(sf::Color::White);
+		this->playerScore[i].setFillColor(sf::Color::Yellow);
 		this->playerScore[i].setPosition((this->windowX / 2) + (this->scoreBoardText.getGlobalBounds().width / 2), 200 + 100 * i);
 
 	}
