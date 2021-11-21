@@ -32,7 +32,7 @@ public:
 	Entername(sf::RenderWindow* window);
 	virtual ~Entername();
 
-	inline std::string getPlayerName() { return this->playerName; }
+	inline const std::string getPlayerName() { return playerName; }
 	void enterName(std::vector<sf::Event> events);
 	void render();
 };

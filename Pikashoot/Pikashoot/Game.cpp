@@ -1,9 +1,10 @@
 #define SFML_NO_DEPRECATED_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "Game.h"
 
 enum textures { player = 0, bullet, enemy01 };
 
-Game::Game(sf::RenderWindow* window, Entername* entername)
+Game::Game(sf::RenderWindow* window)
 {
 	this->enemybuffer.loadFromFile("Audio/explode.wav");
 	this->collibuffer.loadFromFile("Audio/colli.wav");
@@ -12,7 +13,7 @@ Game::Game(sf::RenderWindow* window, Entername* entername)
 	this->window->setFramerateLimit(200);
 	this->dtMultiplier = 62.5f;
 	this->scoreMultiplier = 1;
-	this->score = 0;
+	this->scores = 0;
 	this->multiplierAdderMax = 10;
 	this->multiplierAdder = 0;
 	this->multiplierTimerMax = 200.f;
@@ -31,12 +32,12 @@ Game::Game(sf::RenderWindow* window, Entername* entername)
 
 	//Init player
 	this->players.push_back(Player(this->textures));
-
 	this->playersAlive = this->players.size();
 
 	//	Init Enemies
-	this->enemySpawnTimerMax = 25.f;
+	this->enemySpawnTimerMax = 35.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
+
 
 	this->InitUI();
 	this->InitWorld();
@@ -49,10 +50,16 @@ void Game::run()
 		this->updatePollEvents();
 
 		if (this->players[0].getHp() > 0)
-			
-		this->dt = this->clock.restart().asSeconds();
+
+			this->dt = this->clock.restart().asSeconds();
+		else
+		{
+			gameOver = true;
+		}
+		std::cout << scores << std::endl;
 		this->Update(dt);
 		this->Draw();
+		
 	}
 }
 
@@ -165,6 +172,31 @@ void Game::Update(const float& dt)
 		//Update timers
 		if (this->enemySpawnTimer < this->enemySpawnTimerMax)
 			this->enemySpawnTimer += 1.f * dt * this->dtMultiplier;
+
+		if (this->scores > 100 && this->scores <= 200)
+		{
+			this->enemySpawnTimerMax = 30.f;
+		}
+
+		else if (this->scores > 200 && this->scores <= 400)
+		{
+			this->enemySpawnTimerMax = 25.f;
+		}
+
+		else if (this->scores > 400 && this->scores <= 600)
+		{
+			this->enemySpawnTimerMax = 20.f;
+		}
+
+		else if (this->scores > 600 && this->scores <= 1000)
+		{
+			this->enemySpawnTimerMax = 18.f;
+		}
+
+		else if (this->scores > 1000)
+		{
+			this->enemySpawnTimerMax = 15.f;
+		}
 
 		//Score timer and multipliers
 		if (this->multiplierTimer > 0.f)
@@ -297,11 +329,11 @@ void Game::Update(const float& dt)
 				}
 			}
 			//UPDATE SCORE
-			this->score = 0;
-			this->score += players[i].getScore();
+			this->scores = 0;
+			this->scores += players[i].getScore();
 			this->scoreText.setString(
 				"Score: " +
-				std::to_string(this->score) +
+				std::to_string(this->scores) +
 				"\nMultiplier:" +
 				std::to_string(this->scoreMultiplier) +
 				"\nMultiplier Timer:" +
@@ -419,7 +451,7 @@ void Game::Draw()
 		this->textTags[i].Draw(*this->window);
 	}
 
-	//GAME OVER TEXT
+	//GAME OVER
 	if (this->playersAlive <= 0)
 	{
 		this->window->draw(this->gameOverText);

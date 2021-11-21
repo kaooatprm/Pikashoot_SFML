@@ -25,7 +25,7 @@ private:
 	sf::Texture backgroundTexture;
 	sf::Sprite background;
 
-	FILE* high;
+	FILE* fp;
 	sf::Font font;
 	sf::Text scoreBoardText;
 
@@ -38,6 +38,8 @@ private:
 	std::string name[6];
 
 	std::vector <std::pair<int, std::string>> userScore;
+	int getScore;
+	std::string getName;
 
 	void initHighscore();
 	void initBackground();
@@ -46,6 +48,9 @@ public:
 	Highscore(sf::RenderWindow* window);
 	virtual ~Highscore();
 	void render();
+	void ReadFile();
+	void WriteFile(std::string name, int score);
+	inline void ClearScore() { userScore.clear(); }
 };
 
 #endif // !HIGHSCORE_H

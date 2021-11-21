@@ -4,11 +4,17 @@
 #include"Enemy.h"
 #include "SFML/Audio.hpp"
 #include "Menu.h"
-#include "Entername.h"
+#include "Highscore.h"
 
 class Game
 {
 private:
+
+	bool write = false;
+	bool gameOver = false;
+	//highscore
+	Highscore* highscore;
+
 	SoundBuffer enemybuffer;
 	Sound enemydead;
 
@@ -22,8 +28,8 @@ private:
 	float dtMultiplier;
 
 	//Score
-	unsigned score;
-	unsigned scoreMultiplier;
+	int scores;
+	int scoreMultiplier;
 	float multiplierTimerMax;
 	float multiplierTimer;
 	int multiplierAdder;
@@ -47,6 +53,7 @@ private:
 	//Players
 	std::vector<Player> players;
 	int playersAlive;
+	std::string playerName;
 
 	//Enemies
 	std::vector<Enemy> enemies;
@@ -66,12 +73,15 @@ private:
 	Sound hitSound;
 
 public:
-	Game(sf::RenderWindow* window, Entername* entername);
+	Game(sf::RenderWindow* window);
 	virtual ~Game();
 
 	//Accessors
 	inline RenderWindow& getWindow() { return *this->window; }
-
+	inline void getName(std::string name) { playerName = name; }
+	inline std::string sendName() { return playerName; }
+	inline int getScore() { return scores; }
+	inline bool gameOverCheck() { return gameOver; }
 	//Setters
 
 

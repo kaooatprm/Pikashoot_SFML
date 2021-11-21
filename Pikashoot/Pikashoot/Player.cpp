@@ -77,7 +77,7 @@ bool Player::UpdateLeveling()
 		this->statPoints++;
 		this->exp -= this->expNext;
 		this->expNext = static_cast<int>((50 / 3) * ((pow(level, 3) - 6 * pow(level, 2)) + 17 * level - 12));
-		this->hpMax++;
+		this->hpMax+=5;
 		this->hp = hpMax;
 
 		return true;

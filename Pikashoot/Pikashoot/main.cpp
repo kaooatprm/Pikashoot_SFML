@@ -18,8 +18,8 @@ int main()
 
 	//Game loop
 	Menu menu(window.getSize().x, window.getSize().y);
-	sf::Texture texture;
 
+	sf::Texture texture;
 	sf::SoundBuffer selectSoundBuffer;
 	sf::Sound selectSound;
 	selectSoundBuffer.loadFromFile("Audio/select.wav");
@@ -45,7 +45,7 @@ int main()
 	srand(time(nullptr));
 	Highscore highscore(&window);
 	Entername entername(&window);
-	Game game(&window, &entername);
+	Game game(&window);
 	std::vector<sf::Event> textEnter;
 	while (window.isOpen())
 	{
@@ -121,6 +121,11 @@ int main()
 			dt = clock.restart().asSeconds();
 			game.Update(dt);
 			game.run();
+			if(game.gameOverCheck())
+			{
+				highscore.WriteFile(game.sendName(), game.getScore());
+				std::cout << "written" << std::endl;
+			}
 			break;
 		case 2:
 			switch (event.key.code)
@@ -137,6 +142,7 @@ int main()
 		case 3:
 			entername.enterName(textEnter);
 			textEnter.clear();
+			game.getName(entername.getPlayerName());
 			entername.render();
 			break;
 		}
