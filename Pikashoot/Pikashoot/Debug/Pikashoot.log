@@ -1,5 +1,14 @@
-﻿  Highscore.cpp
-C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Highscore.cpp(20,113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Highscore.cpp(22,41): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Highscore.cpp(24,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  main.cpp
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Enemy.h(49,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\main.cpp(20,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\main.cpp(20,28): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\main.cpp(45,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Pikashoot.vcxproj -> C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Debug\Pikashoot.exe

@@ -34,7 +34,7 @@ int main()
 
 	sf::Music gameOpen;
 	gameOpen.openFromFile("Audio/bg.wav");
-	gameOpen.setLoop(false);
+	gameOpen.setLoop(true);
 	gameOpen.setVolume(20);
 	gameOpen.play();
 	if (!texture.loadFromFile("Textures/menu_bg.JPG")) {

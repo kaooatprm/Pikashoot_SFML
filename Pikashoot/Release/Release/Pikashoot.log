@@ -1,0 +1,6 @@
+﻿  Generating code
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Pikashoot\Bullet.h(29): warning C4172: returning address of local variable or temporary
+  All 775 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Pikashoot.vcxproj -> C:\Users\66881\Documents\CE KMITL Year 1\Programming Fundamental\Game Project\Pikashoot\Release\Pikashoot.exe
